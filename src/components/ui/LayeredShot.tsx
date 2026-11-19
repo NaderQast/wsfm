@@ -37,6 +37,7 @@ export function LayeredShot({
         width={size?.width}
         height={size?.height}
         loading={eager ? 'eager' : 'lazy'}
+        fetchPriority={eager ? 'high' : undefined}
         decoding="async"
         style={cover(objectPosition)}
       />
@@ -48,6 +49,7 @@ export function LayeredShot({
         width={size?.width}
         height={size?.height}
         loading={eager ? 'eager' : 'lazy'}
+        fetchPriority={eager ? 'high' : undefined}
         decoding="async"
         style={cover(objectPosition)}
       />

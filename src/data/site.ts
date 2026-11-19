@@ -21,33 +21,48 @@ export const BRAND = {
   year: 2026,
 }
 
+export type PageKey =
+  | 'home'
+  | 'about'
+  | 'services'
+  | 'government'
+  | 'projects'
+  | 'reviews'
+  | 'contact'
+  | 'quote'
+  | 'residential'
+  | 'commercial'
+  | 'industrial'
+  | 'hygiene'
+  | 'handover'
+  | 'handyman'
+
 /**
- * Only the Home page is built. Destinations that land on a Home section point at
- * its anchor so every click does something. The rest keep the path they will get
- * when those pages exist, and are collected here so that swap is one edit.
+ * Home and About are real routes. The remaining destinations land on a Home
+ * section, so they point at its anchor until those pages exist.
  */
-const ANCHORS: Record<string, string> = {
-  home: '#top',
-  services: '#services',
-  about: '#about',
-  government: '#government',
-  projects: '#work',
-  reviews: '#reviews',
-  contact: '#contact',
-  quote: '#quote',
-  residential: '#services',
-  commercial: '#services',
-  industrial: '#services',
-  hygiene: '#services',
-  handover: '#services',
-  handyman: '#services',
+export const ROUTES: Record<PageKey, string> = {
+  home: '/',
+  about: '/about',
+  services: '/#services',
+  government: '/#government',
+  projects: '/#work',
+  reviews: '/#reviews',
+  contact: '/#contact',
+  quote: '/#quote',
+  residential: '/#services',
+  commercial: '/#services',
+  industrial: '/#services',
+  hygiene: '/#services',
+  handover: '/#services',
+  handyman: '/#services',
 }
 
-export function hrefFor(page: keyof typeof ANCHORS): string {
-  return ANCHORS[page]
+export function hrefFor(page: PageKey): string {
+  return ROUTES[page]
 }
 
-export type NavItem = { label: string; page: keyof typeof ANCHORS }
+export type NavItem = { label: string; page: PageKey }
 
 export const NAV: NavItem[] = [
   { label: 'Services', page: 'services' },
@@ -61,7 +76,7 @@ export const NAV: NavItem[] = [
 export type ServiceLink = {
   title: string
   note: string
-  page: keyof typeof ANCHORS
+  page: PageKey
 }
 
 export const SERVICE_LINKS: ServiceLink[] = [
@@ -130,7 +145,7 @@ export const QUOTE_PROPERTY_TYPES = [
   'Government',
 ]
 
-export const BAND_LINKS: { label: string; page: keyof typeof ANCHORS }[] = [
+export const BAND_LINKS: { label: string; page: PageKey }[] = [
   { label: 'Scheduled cleaning', page: 'services' },
   { label: 'Hygiene', page: 'hygiene' },
   { label: 'Board-ups', page: 'handyman' },
@@ -145,7 +160,7 @@ export const BAND_LINKS: { label: string; page: keyof typeof ANCHORS }[] = [
 export type PhotoTile = {
   title: string
   note: string
-  page: keyof typeof ANCHORS
+  page: PageKey
   src: string
   alt: string
   objectPosition: string
@@ -406,3 +421,123 @@ export const SHEET_GROUPS = [
     ],
   },
 ]
+
+export const ABOUT_HEAD = {
+  title: 'A multi-service contractor built for practical property outcomes',
+  lead:
+    'Western Sydney Facility Maintenance Pty Ltd delivers cleaning, hygiene, handyman and property maintenance across residential, commercial and industrial properties.',
+  facts: [
+    'Greater Sydney and South Coast',
+    'Photo-documented jobs',
+    'One point of contact',
+  ],
+  photo: '/assets/service-commercial-lobby.jpg',
+  photoAlt: 'A cleaner runs a floor scrubber across a commercial lobby at first light',
+  photoPosition: '55% 60%',
+}
+
+export const ABOUT_INTRO = {
+  heading: 'One team for cleaning, hygiene, handyman and maintenance',
+  paragraphs: [
+    'WSFM is an Australian cleaning, hygiene and property services contractor. We support residential customers, property managers, facility management companies, government contractors and commercial and industrial clients across Greater Sydney and the South Coast.',
+    'Our offer combines professional cleaning and hygiene services with practical handyman and property maintenance works. That means you can resolve a mixed scope, from a scheduled clean through to a board-up or large item removal, under one point of contact, with clear reporting.',
+    'WSFM also has practical experience delivering subcontracted cleaning, hygiene and maintenance scopes on government-related contracts, as a subcontractor to a Tier 1 contract holder.',
+  ],
+  spec: [
+    {
+      term: 'Coverage',
+      detail:
+        'Metropolitan Sydney, extending south to the South Coast around Wollongong.',
+    },
+    {
+      term: 'Safety-led delivery',
+      detail: 'WHS-driven site setup, SWMS and JSA, and an inducted workforce.',
+    },
+    {
+      term: 'Photographic reporting',
+      detail: 'Before-and-after photos and a clear written scope on every job.',
+    },
+    {
+      term: 'Multi-service capability',
+      detail: 'Cleaning, hygiene, handyman and maintenance under one contractor.',
+    },
+  ],
+}
+
+export const ABOUT_SUPPORT = {
+  heading: 'Who we support',
+  lede: 'The organisations responsible for Sydney properties.',
+  spec: [
+    {
+      term: 'Social and community housing',
+      detail: 'Vacant turnarounds, common areas and reactive maintenance.',
+    },
+    {
+      term: 'Facility management',
+      detail: 'Support scopes across sites managed by FM providers.',
+    },
+    {
+      term: 'Property managers',
+      detail: 'Residential portfolios, end-of-lease and preparation cleans.',
+    },
+    {
+      term: 'Government contractors',
+      detail: 'Subcontracted delivery under head-contractor agreements.',
+    },
+    {
+      term: 'Residential portfolios',
+      detail: 'Multi-property investors and residential managers.',
+    },
+    {
+      term: 'Commercial and industrial',
+      detail:
+        'Cleaning, maintenance and external programs for commercial and industrial assets.',
+    },
+  ],
+}
+
+export const ABOUT_SAFETY = {
+  heading: 'Safety-led delivery, documented at every step',
+  lede:
+    'Our processes are built around Work Health and Safety obligations, insured coverage, verified workers and clear photographic records for every job.',
+  spec: [
+    {
+      term: 'WHS processes',
+      detail: 'Documented Work Health and Safety procedures built into site setup.',
+    },
+    {
+      term: 'SWMS and JSA',
+      detail: 'Site-specific Safe Work Method Statements and Job Safety Analyses.',
+    },
+    {
+      term: 'Worker inductions',
+      detail: 'An inducted workforce with role-appropriate training records.',
+    },
+    {
+      term: 'Public liability',
+      detail: 'Public liability insurance held covering site works.',
+    },
+    {
+      term: 'Workers compensation',
+      detail: 'Workers compensation insurance in place for team members.',
+    },
+    {
+      term: 'Worker and subcontractor checks',
+      detail: 'Workers and subcontractors verified before they attend site.',
+    },
+    {
+      term: 'White Cards and licences',
+      detail: 'Construction White Cards and relevant task-specific licences.',
+    },
+    {
+      term: 'Incident reporting',
+      detail: 'Formal incident and hazard reporting procedures.',
+    },
+    {
+      term: 'Photographic documentation',
+      detail: 'Before-and-after photos as evidence of the works.',
+    },
+  ],
+  note:
+    'WSFM does not claim ISO, CM3, Avetta or other third-party certifications on this site unless specifically listed. Suspected asbestos is isolated and reported, and is not disturbed by WSFM unless appropriately licensed and authorised.',
+}

@@ -1,8 +1,8 @@
 # WSFM website
 
-Marketing site for Western Sydney Facility Maintenance. The Home page is ported
-from the design export in `design-reference/` (phone and desktop artboards are the
-same page at two breakpoints).
+Marketing site for Western Sydney Facility Maintenance. Pages are ported from the
+design export in `design-reference/` (each phone and desktop artboard is the same
+page at two breakpoints).
 
 ## Run
 
@@ -21,9 +21,12 @@ npm run dev
 ## Layout
 
 - `src/styles/site.css` is the design's stylesheet, ported as-is.
-- `src/components/sections/` holds one component per artboard section.
-- `src/data/site.ts` holds the copy and the link map. Only the Home page exists,
-  so nav items point at in-page anchors there until the other pages are built.
+- `src/pages/` holds the routes. `/` is Home and `/about` is About.
+- `src/components/sections/` holds one component per Home section. About-specific
+  sections live inside `src/pages/About.tsx`.
+- `src/data/site.ts` holds the copy and the link map. Home and About are routes.
+  The other nav items point at in-page anchors until those pages are built, and
+  each link is defined once in `ROUTES`.
 
 ## Design reference
 

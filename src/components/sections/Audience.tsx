@@ -2,7 +2,7 @@ import { AUDIENCE, IMAGE_SIZE, hrefFor } from '../../data/site'
 
 export function Audience() {
   return (
-    <section className="section" id="about" aria-labelledby="who-h">
+    <section className="section" aria-labelledby="who-h">
       <div className="container">
         <div className="section-head">
           <div className="prose">

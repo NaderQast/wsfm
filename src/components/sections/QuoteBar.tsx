@@ -1,9 +1,15 @@
-import { useState, type FormEvent } from 'react'
-import { QUOTE_PROPERTY_TYPES, QUOTE_SERVICES, hrefFor } from '../../data/site'
+import { useEffect, useRef, useState, type FormEvent } from 'react'
+import { Link } from 'react-router-dom'
+import { QUOTE_PROPERTY_TYPES, QUOTE_SERVICES } from '../../data/site'
 import { ChevronDown } from '../icons'
 
 export function QuoteBar() {
   const [sent, setSent] = useState(false)
+  const confirmation = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (sent) confirmation.current?.focus()
+  }, [sent])
 
   function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -61,16 +67,23 @@ export function QuoteBar() {
       <button className="btn btn-navy" type="submit">
         Continue to quote
       </button>
-      <div className="done" data-open={sent ? '' : undefined} hidden={!sent}>
+      <div
+        className="done"
+        ref={confirmation}
+        role="status"
+        tabIndex={-1}
+        data-open={sent ? '' : undefined}
+        hidden={!sent}
+      >
         <h3 className="h3">Thanks, we have those three details.</h3>
         <p className="muted">
-          The rest of the quote collects the scope, dates and photos. It lives on
-          the Contact page, which is the next page in this build.
+          The rest of the quote collects the scope, dates and photos. That form
+          is not built yet, so this preview stops here.
         </p>
         <div className="btn-row">
-          <a className="btn btn-line" href={hrefFor('contact')}>
-            Go to Contact
-          </a>
+          <Link className="btn btn-line" to="/about">
+            More about WSFM
+          </Link>
           <button className="btn btn-line" type="button" onClick={() => setSent(false)}>
             Change details
           </button>

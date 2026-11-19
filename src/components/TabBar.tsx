@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { CONTACT, hrefFor } from '../data/site'
 import { PhoneIcon } from './icons'
 
@@ -11,9 +12,9 @@ export function TabBar() {
       >
         <PhoneIcon />
       </a>
-      <a className="btn btn-loud" href={hrefFor('quote')}>
+      <Link className="btn btn-loud" to={hrefFor('quote')}>
         Get a quote
-      </a>
+      </Link>
     </nav>
   )
 }

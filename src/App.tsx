@@ -1,18 +1,33 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import { Footer } from './components/Footer'
 import { Header, MenuSheet } from './components/Header'
 import { TabBar } from './components/TabBar'
-import { Audience } from './components/sections/Audience'
-import { Coverage } from './components/sections/Coverage'
-import { CtaBand } from './components/sections/CtaBand'
-import { Hero } from './components/sections/Hero'
-import { Process } from './components/sections/Process'
-import { Reviews } from './components/sections/Reviews'
-import { Services } from './components/sections/Services'
-import { Why } from './components/sections/Why'
-import { Work } from './components/sections/Work'
+import { About } from './pages/About'
+import { Home } from './pages/Home'
 
-export default function App() {
+/**
+ * The Home page is one long page and the nav links into it carry a hash.
+ * Scroll after the target page has rendered, not before.
+ */
+function ScrollToHash() {
+  const { pathname, hash } = useLocation()
+
+  useEffect(() => {
+    if (!hash) {
+      window.scrollTo({ top: 0 })
+      return
+    }
+    const frame = requestAnimationFrame(() => {
+      document.querySelector(hash)?.scrollIntoView()
+    })
+    return () => cancelAnimationFrame(frame)
+  }, [pathname, hash])
+
+  return null
+}
+
+function Layout() {
   const [menuOpen, setMenuOpen] = useState(false)
 
   return (
@@ -20,23 +35,26 @@ export default function App() {
       <a className="skip" href="#main">
         Skip to content
       </a>
-      <Header onOpenMenu={() => setMenuOpen(true)} />
+      <Header menuOpen={menuOpen} onOpenMenu={() => setMenuOpen(true)} />
       <MenuSheet open={menuOpen} onClose={() => setMenuOpen(false)} />
+      <ScrollToHash />
       <main id="main">
-        <Hero />
-        <div className="panel">
-          <Services />
-          <Audience />
-          <Process />
-          <Why />
-          <Work />
-          <Reviews />
-          <Coverage />
-        </div>
-        <CtaBand />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
       </main>
       <Footer />
       <TabBar />
     </div>
+  )
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <Layout />
+    </BrowserRouter>
   )
 }

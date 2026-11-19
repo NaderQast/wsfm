@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { BRAND, CONTACT, FOOTER_COLUMNS, hrefFor } from '../data/site'
 
 export function Footer() {
@@ -24,7 +25,7 @@ export function Footer() {
               <ul>
                 {column.links.map((link) => (
                   <li key={link.label}>
-                    <a href={hrefFor(link.page)}>{link.label}</a>
+                    <Link to={hrefFor(link.page)}>{link.label}</Link>
                   </li>
                 ))}
               </ul>

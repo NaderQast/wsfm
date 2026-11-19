@@ -18,6 +18,23 @@ export function ChevronDown(props: IconProps) {
   )
 }
 
+export function ChevronRight(props: IconProps) {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" strokeWidth={2.4} {...base} {...props}>
+      <path d="M9 6l6 6-6 6" />
+    </svg>
+  )
+}
+
+export function MailIcon(props: IconProps) {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" strokeWidth={2} {...base} {...props}>
+      <rect x="3" y="5" width="18" height="14" rx="2" />
+      <path d="M3 7l9 6 9-6" />
+    </svg>
+  )
+}
+
 export function MenuIcon(props: IconProps) {
   return (
     <svg width="20" height="20" viewBox="0 0 24 24" strokeWidth={2.2} {...base} {...props}>

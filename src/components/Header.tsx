@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import {
   CONTACT,
   NAV,
@@ -6,7 +7,7 @@ import {
   SHEET_GROUPS,
   hrefFor,
 } from '../data/site'
-import { ChevronDown, MenuIcon, PhoneIcon } from './icons'
+import { ChevronDown, ChevronRight, MailIcon, MenuIcon, PhoneIcon } from './icons'
 
 function ServiceDropdown() {
   const [open, setOpen] = useState(false)
@@ -30,9 +31,9 @@ function ServiceDropdown() {
 
   return (
     <div className={open ? 'has-menu open' : 'has-menu'} ref={wrap}>
-      <a className="nav-link" href={hrefFor('services')}>
+      <Link className="nav-link" to={hrefFor('services')}>
         Services
-      </a>
+      </Link>
       <button
         type="button"
         className="nav-link"
@@ -45,49 +46,69 @@ function ServiceDropdown() {
       </button>
       <div className="dropdown">
         {SERVICE_LINKS.map((link) => (
-          <a key={link.title} href={hrefFor(link.page)}>
+          <Link key={link.title} to={hrefFor(link.page)}>
             <strong>{link.title}</strong>
             <span>{link.note}</span>
-          </a>
+          </Link>
         ))}
       </div>
     </div>
   )
 }
 
-export function Header({ onOpenMenu }: { onOpenMenu: () => void }) {
+/** The one page that exists as a route of its own, for now. */
+function currentPage(pathname: string) {
+  return pathname === '/about' ? 'about' : ''
+}
+
+export function Header({
+  menuOpen,
+  onOpenMenu,
+}: {
+  menuOpen: boolean
+  onOpenMenu: () => void
+}) {
+  const { pathname } = useLocation()
+  const current = currentPage(pathname)
+
   return (
     <header className="site-header">
       <div className="container header-row">
-        <a
+        <Link
           className="brand"
           translate="no"
-          href={hrefFor('home')}
+          to={hrefFor('home')}
           aria-label="Western Sydney Facility Maintenance, home"
         >
           <img src="/assets/logo-wsfm.svg" alt="WSFM" width="128" height="56" />
-        </a>
+        </Link>
         <nav className="nav" aria-label="Main">
           <ServiceDropdown />
           {NAV.slice(1).map((item) => (
-            <a key={item.label} className="nav-link" href={hrefFor(item.page)}>
+            <Link
+              key={item.label}
+              className="nav-link"
+              to={hrefFor(item.page)}
+              aria-current={item.page === current ? 'page' : undefined}
+            >
               {item.label}
-            </a>
+            </Link>
           ))}
         </nav>
         <div className="header-actions">
           <a className="header-phone" href={CONTACT.phoneHref}>
             {CONTACT.phoneDisplay}
           </a>
-          <a className="btn btn-loud" href={hrefFor('quote')}>
+          <Link className="btn btn-loud" to={hrefFor('quote')}>
             Get a quote
-          </a>
+          </Link>
         </div>
         <button
           type="button"
           className="menu-btn"
           aria-haspopup="dialog"
-          aria-expanded="false"
+          aria-expanded={menuOpen}
+          aria-controls="site-menu"
           aria-label="Open menu"
           onClick={onOpenMenu}
         >
@@ -115,12 +136,18 @@ export function MenuSheet({
   }, [open])
 
   return (
-    <dialog className="sheet" ref={ref} onClose={onClose}>
+    <dialog
+      className="sheet"
+      id="site-menu"
+      ref={ref}
+      aria-labelledby="sheet-heading"
+      onClose={onClose}
+    >
       <div className="sheet-inner">
         <div className="grabber" aria-hidden="true" />
         <div className="sheet-top">
           <span aria-hidden="true" />
-          <h2>Menu</h2>
+          <h2 id="sheet-heading">Menu</h2>
           <button type="button" onClick={onClose}>
             Close
           </button>
@@ -130,12 +157,12 @@ export function MenuSheet({
             <p className="group-title">{group.title}</p>
             <div className="group">
               {group.links.map((link) => (
-                <a key={link.label} href={hrefFor(link.page)} onClick={onClose}>
+                <Link key={link.label} to={hrefFor(link.page)} onClick={onClose}>
                   <span className="icon-tile" aria-hidden="true">
-                    <ChevronDown width={14} height={14} />
+                    <ChevronRight width={14} height={14} />
                   </span>
                   <span className="grow">{link.label}</span>
-                </a>
+                </Link>
               ))}
             </div>
           </div>
@@ -148,12 +175,15 @@ export function MenuSheet({
             <span className="grow">{CONTACT.phoneDisplay}</span>
           </a>
           <a href={`mailto:${CONTACT.email}`} onClick={onClose}>
+            <span className="icon-tile" aria-hidden="true">
+              <MailIcon width={16} height={16} />
+            </span>
             <span className="grow">Email WSFM</span>
           </a>
         </div>
-        <a className="btn btn-loud" href={hrefFor('quote')} onClick={onClose}>
+        <Link className="btn btn-loud" to={hrefFor('quote')} onClick={onClose}>
           Get a quote
-        </a>
+        </Link>
       </div>
     </dialog>
   )
